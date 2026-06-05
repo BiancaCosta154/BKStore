@@ -16,7 +16,10 @@ O sistema possui, atualmente, a entidade:
 
 * **Livros** — representa a lista realizada (, quantidade, status, data).
 
-![][image1]
+<img width="1050" height="957" alt="image" src="https://github.com/user-attachments/assets/3d78a382-b6a4-410e-b5d0-abf921855c7c" />
+<img width="1070" height="971" alt="image" src="https://github.com/user-attachments/assets/1516bd09-2dcd-425c-a15e-14a561eba0d8" />
+
+
 
 ---
 
