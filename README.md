@@ -14,7 +14,7 @@ O **BKStore** é um sistema de gerenciamento de leituras pessoais. A aplicação
 
 O sistema possui, atualmente, a entidade:
 
-* **Livros** — representa a lista realizada (, quantidade, status, data).
+* **Livros** — representa a lista realizada (livro, autor, status).
 
 <img width="1050" height="957" alt="image" src="https://github.com/user-attachments/assets/3d78a382-b6a4-410e-b5d0-abf921855c7c" />
 <img width="1070" height="971" alt="image" src="https://github.com/user-attachments/assets/1516bd09-2dcd-425c-a15e-14a561eba0d8" />
@@ -40,8 +40,7 @@ Para executar o projeto, certifique-se de ter instalado:
 bash  
 git clone https://github.com/BiancaCosta154/BKStore.git  
 cd BKStore
-
-**Npm install**
+Npm install
 
 A API estará disponível em `http://localhost:5000`.
 
@@ -62,11 +61,11 @@ A API estará disponível em `http://localhost:5000`.
 
 | Método | Rota | Descrição |
 | ----- | ----- | ----- |
-| GET | `/produtos` | Lista todos os livros |
+| GET | `/livros` | Lista todos os livros |
 |  |  |  |
-| POST | `/produtos` | Cadastrar novo livro |
+| POST | `/livros` | Cadastrar novo livro |
 |  |  |  |
-| DELETE | `/produtos/{id}` | Remove o livro por id |
+| DELETE | `/livros/{id}` | Remove o livro por id |
 
 ---
 
