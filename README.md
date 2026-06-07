@@ -36,11 +36,11 @@ Para executar o projeto, certifique-se de ter instalado:
 ## **Como Executar Localmente**
 
 **1\. Clone o repositório**
-
-bash  
+ 
 git clone https://github.com/BiancaCosta154/BKStore.git  
-cd ...BkS\Person\API\API>
 Npm install
+cd ...BkS\Person\API\API>
+Terminal: node server.js
 
 A API estará disponível em `http://localhost:5000`.
 
