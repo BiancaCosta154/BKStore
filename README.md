@@ -39,7 +39,7 @@ Para executar o projeto, certifique-se de ter instalado:
 
 bash  
 git clone https://github.com/BiancaCosta154/BKStore.git  
-cd BKStore
+cd ...BkS\Person\API\API>
 Npm install
 
 A API estará disponível em `http://localhost:5000`.
