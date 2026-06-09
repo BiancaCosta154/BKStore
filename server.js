@@ -5,6 +5,8 @@ import dotenv from 'dotenv'
 import dns from 'dns'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import swaggerJsdoc from 'swagger-jsdoc'
+import swaggerUi from 'swagger-ui-express'
 
 dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1', '1.0.0.1'])
 
@@ -17,6 +19,25 @@ const app = express()
 
 app.use(express.json())
 app.use(cors())
+
+const swaggerSpec = swaggerJsdoc({
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'API de Livros',
+            version: '1.0.0',
+            description: 'Documentação da API de livros',
+        },
+        servers: [
+            {
+                url: `http://localhost:${process.env.PORT || 5000}`,
+            },
+        ],
+    },
+    apis: [path.join(__dirname, 'server.js').replace(/\\/g, '/')],
+})
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 const DATABASE_URL = process.env.DATABASE_URL
 const PORT = process.env.PORT || 5000
@@ -73,6 +94,18 @@ app.get('/api/livros', async (req, res) => {
     }
 })
 
+/**
+ * @swagger
+ * /api/livros:
+ *   get:
+ *     summary: Lista todos os livros
+ *     responses:
+ *       200:
+ *         description: Lista de livros
+ *       500:
+ *         description: Erro ao buscar livros no banco de dados
+ */
+
 app.post('/api/livros', async (req, res) => {
     const { title, author, status } = req.body 
 
@@ -89,6 +122,35 @@ app.post('/api/livros', async (req, res) => {
     }
 })
 
+/**
+ * @swagger
+ * /api/livros:
+ *   post:
+ *     summary: Cria um novo livro
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *               - author
+ *               - status
+ *             properties:
+ *               title:
+ *                 type: string
+ *               author:
+ *                 type: string
+ *               status:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Livro criado com sucesso
+ *       500:
+ *         description: Erro ao salvar livro
+ */
+
 app.delete('/api/livros/:id', async (req, res) => {
     const { id } = req.params 
     try {
@@ -99,3 +161,21 @@ app.delete('/api/livros/:id', async (req, res) => {
         res.status(500).json({ error: "Erro ao remover livro." })
     }
 })
+
+/**
+ * @swagger
+ * /api/livros/{id}:
+ *   delete:
+ *     summary: Remove um livro pelo id
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Livro removido com sucesso
+ *       500:
+ *         description: Erro ao remover livro
+ */
