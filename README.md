@@ -46,6 +46,17 @@ A API estará disponível em `http://localhost:5000`.
 
 ---
 
+## Swagger
+
+A documentação é gerada com `swagger-jsdoc` a partir dos comentários `@swagger` no código e exibida com `swagger-ui-express`.
+
+A interface fica disponível em:
+
+`http://localhost:5000/api-docs`
+
+Através da Url é possível testar os parâmetros de cada requisição e os endpoints diretamente no navegador.
+
+---
 ## **Variáveis de Ambiente**
 
 | Variável | Descrição | Exemplo |
