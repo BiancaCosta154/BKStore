@@ -1,6 +1,12 @@
 # 📚 BKStore - Documentação Completa
 
 **BKStore** é uma aplicação web para gerenciamento de leitura pessoal de livros. Desenvolvido como Trabalho Prático Semestral da disciplina **Arquitetura de Aplicações Web — 2026.1**.
+<img width="1194" height="940" alt="image" src="https://github.com/user-attachments/assets/47be4b1f-2a8e-4058-a2e3-638bda30e476" />
+<img width="1100" height="690" alt="image" src="https://github.com/user-attachments/assets/d1e9e3ac-01e0-4b68-b03d-0240b9682a3a" />
+
+
+
+
 
 ---
 
