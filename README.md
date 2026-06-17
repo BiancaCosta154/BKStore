@@ -1,91 +1,176 @@
+# 📚 BKStore - Documentação Completa
 
-
-# **BKStore**
-
-Aplicação web desenvolvida como Trabalho Prático Semestral da disciplina **Arquitetura de Aplicações Web — 2026.1**.
+**BKStore** é uma aplicação web para gerenciamento de leitura pessoal de livros. Desenvolvido como Trabalho Prático Semestral da disciplina **Arquitetura de Aplicações Web — 2026.1**.
 
 ---
 
-## **Descrição do Projeto**
+## 📋 Índice
 
-O **BKStore** é um sistema de gerenciamento de leituras pessoais. A aplicação conta com uma API REST, e uma interface web que consome a API.
-
-### **Domínio**
-
-O sistema possui, atualmente, a entidade:
-
-* **Livros** — representa a lista realizada (livro, autor, status).
-
-<img width="1050" height="957" alt="image" src="https://github.com/user-attachments/assets/3d78a382-b6a4-410e-b5d0-abf921855c7c" />
-<img width="1070" height="971" alt="image" src="https://github.com/user-attachments/assets/1516bd09-2dcd-425c-a15e-14a561eba0d8" />
-
-
-
----
-
-## **Pré-requisitos**
-
-Para executar o projeto, certifique-se de ter instalado:
-
-* Express  
-* [MongoDB Atlas](https://www.mongodb.com/atlas) (nuvem)  
-* [Git](https://git-scm.com/)
+1. [Visão Geral](#visão-geral)
+2. [Tecnologias Utilizadas](#tecnologias-utilizadas)
+3. [Estrutura do Projeto](#estrutura-do-projeto)
+4. [Pré-requisitos](#pré-requisitos)
+5. [Instalação](#instalação)
+6. [Configuração](#configuração)
+7. [Como Executar](#como-executar)
+8. [Endpoints da API](#endpoints-da-api)
+9. [Autenticação](#autenticação)
+10. [Modelos de Dados](#modelos-de-dados)
+11. [Tratamento de Erros](#tratamento-de-erros)
+12. [Documentação Swagger](#documentação-swagger)
 
 ---
 
-## **Como Executar Localmente**
+## 🎯 Visão Geral
 
-**1\. Clone o repositório**
- 
-git clone https://github.com/BiancaCosta154/BKStore.git  
-Npm install
-cd ...BkS\Person\API\API>
-Terminal: node server.js
+O **BKStore** é um sistema que permite aos usuários:
 
-A API estará disponível em `http://localhost:5000`.
+- **Registrar** uma conta pessoal
+- **Autenticar-se** no sistema com email e senha
+- **Gerenciar uma lista de livros** que desejam ler
+- **Acompanhar o status** dos livros (não iniciado, lendo, concluído, etc.)
+- **Visualizar** todos os seus livros em um dashboard
 
----
-
-## Swagger
-
-A documentação é gerada com `swagger-jsdoc` a partir dos comentários `@swagger` no código e exibida com `swagger-ui-express`.
-
-A interface fica disponível em:
-
-`http://localhost:5000/api-docs`
-
-Através da Url é possível testar os parâmetros de cada requisição e os endpoints diretamente no navegador.
-
----
-## **Variáveis de Ambiente**
-
-| Variável | Descrição | Exemplo |
-| ----- | ----- | ----- |
-| `MONGODB_CONNECTION_STRING` | String de conexão com o banco MongoDB | `mongodb://localhost:5000` |
-| `MONGODB_DATABASE_NAME` | Nome do banco de dados | `bkstore` |
+A aplicação utiliza uma **API REST** desenvolvida com Express.js e armazena os dados em **MongoDB Atlas** (nuvem).
 
 ---
 
-## **Endpoints Principais**
+## 🛠️ Tecnologias Utilizadas
 
-### **Livros**
-
-| Método | Rota | Descrição |
-| ----- | ----- | ----- |
-| GET | `/livros` | Lista todos os livros |
-|  |  |  |
-| POST | `/livros` | Cadastrar novo livro |
-|  |  |  |
-| DELETE | `/livros/{id}` | Remove o livro por id |
+| Tecnologia | Versão | Descrição |
+|-----------|--------|-----------|
+| **Node.js** | - | Runtime JavaScript |
+| **Express** | ^5.2.1 | Framework web |
+| **MongoDB** | - | Banco de dados NoSQL |
+| **Mongoose** | ^9.6.3 | ODM para MongoDB |
+| **JWT** | ^9.0.2 | Autenticação por token |
+| **bcryptjs** | ^2.4.3 | Hash de senhas |
+| **CORS** | ^2.8.6 | Controle de requisições entre origens |
+| **Swagger** | ^6.3.0 | Documentação de API |
+| **Prisma** | 6.19 | ORM (configurado mas não utilizado no momento) |
+| **dotenv** | ^17.4.2 | Gerenciamento de variáveis de ambiente |
 
 ---
 
-## **Tecnologias Utilizadas**
+## 📁 Estrutura do Projeto
 
-* **Backend:** [Node.js](http://Node.js) \+ Express  
-* **Banco de Dados:** MongoDB  
-* **Frontend:** HTML \+ JavaScript 
+```
+Person/
+└── API/
+    └── API/
+        ├── package.json                 # Dependências e scripts
+        ├── README.md                    # Documentação breve
+        ├── .env                         # Variáveis de ambiente (não versionado)
+        ├── .gitignore                   # Arquivos ignorados pelo Git
+        │
+        ├── Controller/
+        │   └── server.js                # Servidor Express principal
+        │
+        ├── View/
+        │   ├── index.html               # Dashboard (protegido)
+        │   └── login.html               # Página de login/registro
 
-**Windows can't communicate with the device or resource (primary DNS server)**. 
+```
 
-[image1]: <data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVAAAAGwCAYAAAD/rD1bAAAqzklEQVR4Xu2dC5QU1b2vOVmXnOREc1xJzFmJrpuVe0y4iVljXlyNaDSYHCUhXmIQJRdFRROPMSJBDaiIUSADgSgiKJFM4EhQD0aJEAmE+EDlEUBAQEBAngZhhsfM8BgGZd/67+pdvXtX9Uz3np7pnunvt9ZHVe3ae9ejp77e1TNUd/rYxz6mvva1r0GJ0KlTJwBoL7gXMBSX2AsEAKWLewFDcYm9QABQurgX8Lp169T27dv1/A033KAef/xxdeGFF8YudGgdYi+Qw9133x0rA4AiYV+8PXv21MJcsmSJmjRpUkRjY2PsQhfRmvkdO3bE6rz22muxNgap69bPl/3790fzc+bMia3PhY/e989q1NyRatQzozRnnHFGrE6hGTJkSDR/zTXXxNbHXiAHBAqQGxK3rCUMHz5cT2VAKehy++I1UnRHnCJW90I3dUWUIlB3fVMCteXni+n/3nvvja2rqqqKlSXxuZs7qyHTL1a3T++h+cynPxqrU2hEoEK2NxD3RXNBoAC5UWiByoBHJBrJU7AvXnPr7gr0yiuvjF3oRlwyFYEKRlwybwQnU6ljC8MIVEaOruyknlsmiLBlnT3ylb6lL7e+LNuSNm3tOqeddpo6d9IWfZJNvvjFL8a2W2gQKEDbUGiBmpGnGYlq7IvXfOaZyy28LcXmBCoys4WWNAKV/kSoMnWFaNa5bYw83fpS195nWXbbf/7zn1d7r/qIeueJUapu7aua0z/+r7FtFBpu4QHahtYQqEzNSFSXuxewICM2uW2XEakI1V3fUfjKxz+g/t+/d1Zf+8T/0LSFQJvDfdFcEChACeFewFBcYi8QAJQu7gUMxSX2AgFA6eJewFBcTjrppPiLBACliXsBQ3H50pe+FH+RAKA0cS9gKD7ygJfYCwUApYd78QIAQG4gUAAATwoq0K9//euqe/fu+m9IAaD4XHzxxfq6dK/VjsbZZ5+tvvGNb7QZ55xzjuratWthBCo736VLF/0wDgAoPeT6lOvUvXbbM3I8F1xwQVFpsUDlIL761a/GXjAAKC3kOm1Nid5w/QD1yssvqLVrVqmFL/1NXT/gOtWwYqk68swT6txzz43VbymuzIpBiwV63nnnxV4oAChN5Hp1r+FC8Oba1Wr1yuVq7Rsr1fp1b+ipLB+b/phqmFGlVi1fEWvTEs4///xIYqdPr1Wn/ddB9ampB9QnH9qj/vWCRer8Cy+Jya41SBSoPEBEpvfcc49+wIi73iCfsbgv0Lhx4/RUPgsV3PUA5Y5cI+Y6aS3k2r3sssti5YJct+617CLt3bJsPD/nObVm9etqyaJX1OhRI9TY0b9SlSPvV39fskg1Ll+sR6DymaHbzhf5DNII7Kz+v1CfnPSG+tQjK9Tpk5eqj1+0RP3Pq9eoU4e8FZNdaxATqHmknSHpSUwG+XDafmHMD4Wsk2k2gY58pSbod4Oe3/DUGeqJjY0Z62teGZmaH6nnaxpronWmnY3s40hruXLKxGh+yuhbovmJqfIpE4epW0ZPCesOjO+f3Ub40bCw3cRhPwrLBlaqH9nLOWD6sNu7dRLrZsFubx+vSy59QXHJJjqbKVOmRLjrkjB9igjddc39UkmexmZPm2Pblre0QCdNGK9+XTlKC1Smj06coN5YtUJt37o51qYl2AL72u9+r7r+oUqd88RvVbenJumyXt17qecHbFN/vG6vmnntvoz6f/nLX/R0/fr1aunSpRnrDNnKk4gJNOndKduJdF8YU2b/QGR7p62xRLiwJi1Qu1xEq+ef2hAJcuH94VTEG/WXWm+kOFF+0AJJyrz9Q2dkKfXM+olTKvV02MSwju7DEZwrUCPYtEB/lKp/iy6T+rI8JdW3bMsWmS1ovW99h4X7NjCsL/sv03B/09sy+xhtO9XOCNQcp54Gfd1yBgJtDwwcODBW5kvS9SbXpTuYca9lwR085UL/q6/SkhTmPT9bjRtTqQUq/HXe81qsgtvOxWzbTJsauNkCu/UvV6sh865Uw+b3VvfP76XLtlw+VS25bJ564QevqQW9FmfUt+Uo85WVlZFUzbrmBNqnTx99jcl8TKBJt+zPPvtsrExwf/NuXiR5Xp4py/bDEYny/oUZ5UaQgi1Qd71dzxZsmlvUsL7pZZFWokDN1MjRvNM7o1C7jpGrLVBdHsnqR6HYUtsTSUfrAunZco72wxKkqWvLX8pEiKadvQ+RQI3YdZ/h8SPQ0kOuE3ONyAhRrhH7mmkprkRdecp1617Lhnwl2rPn9/TnnYKIcs5zz6oHxo4Jbuv/FMlT1rntmiNpIGewZfb0i13V7Je+ov7ycoWa/uRZuuxA37Hq7T5T1Zu9n1Rrej+dUV/EbOZtYUp5rgIVjERjAnVPYJJQDdlu4bO9cDZGoOnb9UzCW3X7Fj6ct2/ho3lnBCriMPOaQFpSlvUWPjXyk3pGUvZozxAK0/pIwBGoOwJNEmhlalRqsAUajXSdEXMk5GD/zX4j0I6BXEfmNrtQEnWvQ5embuHt61/mRSzZ7kAN297epEegIsqpVY+pB8f9Wk2rmhJJtTVv4be/9jG1Z9FH1b7FH1G9e52jRn63pzp883BVf9XoQKS/Udv7jI3JT45JnnNsC3PXrl36tt6sd9tkIyZQQV5QOXnNnbgkQUq5mDnps5dSJZ/PMs2I1ZemPvuE8kOuF5k2JU9TJ9uyi/0LJPPLIHu9XLfutWyQa94dRDXH5b17q3GjK/Xtu/0ZqCy/vmyJ6h2sd9u0BPkDdldkasQlSv3kAvXexBvUsdE/VQ3DBqujQ+6I1Ss0iQLNB/6MCaD90Fp/xvSbX49WY341UovTIMu9f3hZrG4hsP+MSVjZ/0JV0+s8deKpK9R7VVepxoeuV+uHXxMTXqFpsUD5Q3qA9kFr/yH9pd/vqe4bPkyPQO8bfo9edusUEldmxaDFAjX06NEj9kslACg+cl3K9elesx0B+29Ci0HBBCrwMBGA0oKHibQOBX2YCABAOdJJfmUPAAD5g0ABADxBoAAAniBQAABPECgAgCcIFADAEwQKAOAJAgUA8ASBAgB4gkABADxBoAAAniBQAABPECgAgCcIFADAEwQKAOAJAgUA8ASBAgB4gkABADxBoAAAniBQAABPECgAgCcIFADAEwQKAOAJAgUA8ASBArQCCxYsUN/85jfzZvLkybG+oHRBoO2Y+tlDVUXnLpptCeubwrSr6Dwotg5aRqdOndQHPvVP6pOLTtKc+tJJ6pS7T2mWf/nhv6ihQ4fG+oPSBYEWk1mDLJGFxOo02rILuXz0Vl1edVa67I5Z8XZN0doCdfc54qzHYnU7GiJQI0/h07/8tMol0g6Bti8QaDFpoUBLeQTq7nNErgLdu0F1beKcFIp+p3fNb79y4AOfSI8+hYdeech1ZWIQaPsDgRaTSKCpizhgxF+dOjueDNedmZatEWhLaDOB+orJenOJrSsgLd7PBESEJ93ywUigH59+sur5u57N8qFvfki3dfuD0gWBFhNLEndkEdr0bmH5wD/Migl02+heUZkZgbpCWPO7UXq525lXZ/Qb1Uttz9Tr7tQT9q16Rd3x7R5h/ZO7qY37E47Fwd2PJOrXvqIGnNk93L/Tu6sxo+dmtnUw7WR/LvlM6k0nYX/S5zJsU3V1Hz3f79JxUR374w+bjI9CjtSrS06t0OXdP9Mntv/ZEAl+6IOdlJqXpvrx3LizNwJtTyDQYmKPsvbPjebnRUL4hyWCBdF8TgINRGiLId2PU69zKDAXU8+WkUvseCyielkEOuLUeH+mT7fMXpfL/jRVR3jtSHMCrYmVR/x7WsLZ0LfiV6bl2fBcIMV3X8qJz5yKQNsTCLSYOLep3cxFelk4EosEqZfzFGhAv2HLdFl3q+y5lJztet37PKnLLrfKZu4I642/YJSqt/e5bllUZ/yShGNK2A+bqg2Z6y+5I9xHoX5teNyaLLfwuexPhkBPD0fY489Ol11y5+r4flqiH3Fyum60nSOr42UJbNq0Kfwl0jd6q59MnKx+/Ntpqvttd6tLfnGX6jZ4RNN8oRMCbWcg0GLiSOK1m9KfhcqyEVo4Is1XoNYt55JxUbm5RU3X65quZz5vterZ7NvxDzXvqfhHCUmk+8/EFajw2tb6WHv33CSRbX/cW/iQ+vQ2LVk2WeZsO6nMReT59cql6txJW9SZo1erXz63wf1dUWKkncHtE0oXBFpMEiRhlgf+IX3Bh+vyFGjGrXO6bVyg9meu8XrmN+GJXL3AaptJ8n5Y7H0l3l/nbun1Cecm1/1JFmjyPjVZloWM43AQAYo8hVMG/c31ZNYgz/YJAi0mCZKILtQzH07NmxFicQRqlgdOTo82o7YtEahwpF6NvzT8BY8huj1PODd2v/ZtvLs/hRSo3T4XvvWtb6mPf+USLdBvTNyiOg34k7r3TxuapdNX+iLRdggCLSYJkrA/hxS63fRKal0xBJpejv7O1PossMUCTaj/gilLODf2/kRlCfvjJdCT742XOe1zRSRY+X8+qI4OOCni7StPVn/vdUqz3PiFD8X6g9IFgRaTJElYn0NmXsDFEGimTGLkItAEmlqf7iP9Fwi5tNO0RKAp9HHvTZ+HGM28IYg8bXEKddd8xL1jzxpGoO0LBFpMkgTamDwqKpZAb3L+3Gj5XqttgQU6c1XmL5Psvx4w7XLZn3wE+totqb9vTRH98mzvssTPWy+/KfsxC0kC3RKMPnMNAm1fIFCAApIk0H39T3I9mTUItH2BQAEKSF1dnZbgmLPdz0A/Gvu8Mwk+A21fIFCAAnPddddl/F1nvrj9QemCQAEAPEGgAACeIFAAAE8QKACAJwgUAMATBAoA4AkCLWE2v7kpVlZXW6exl906pcTe3XtjZfkw7cGqWJnLsoV/j5UZJo+cFCsDKBQItIRpqUCfnvJUrKytKbZAm1pXirS3/S13EGgbkk12RpTXXtQvQ5oyLxeUlJtl6WPXtp1RmelTRCXrpXzwFT9Ts6fP0vO/uvX+aN70K+vNyCxpm1Jm6ku/Mi99mPoytffL7d9s17Q35W5fsh+m3YJn5+t5I32zHyJQOUa7T4Npb6Rz4/cGZAhI6pv+ZZ3Ul3mz72Ybsj9yPuxzYh+PIPslZeYY7HNm+rNfX7vM7sttK8dtymv21ET7Y7Zj7wOUHgi0CJgL2WAuKLng5UJ3ywW5gI1AzYUqZbZAXUEbGRkhyEXt3tJKeVPbNG2NDEx7c5HbwjJilP7MxW8EKm3NvNQzYhHkuM1IU7ZpH4spt/sU7OOQfTAydaXjHrP0Z/bZHKs7lfrmfJl25ly6U7MN084tc6fua2wEas6NvU3ZB/f1gtICgRYBIwgjCblwZz4Wfi/R+LvSX1pmhCnzIh2zbF/o7gjU3k7SLbx9QWbbppk323T7sEeV9j6KnFwZuXVlmiQFIxLzpmDayb6Zdfa+2Lf2riRtZJ19fHJMzQnUbmvmXXH6CDTpfJtjM3XcdtmOC0oDBNrGmFs0mTejJrlwzS2bLQYpl7pmxGpktXb5G9FIyxWoGdFJmVx8Mm9GVO4+ZNumlNnblGUZNZl5Kbdvj5Nu4bes3xztl9u3O1KVclugMhWBmH0z86ZPg2lvZGPvt8Gsk7rmvDQnULOPhRZo0vmW4zajcVk2H78IZmTuHhOUDggUMnBHYYXEvAEYgQK0dxAoAIAnCBQAwBMECgDgCQIFAPAEgQIAeIJAAQA8QaAAAJ4gUAAATxAoAIAnCBQAwBMECgDgCQIFAPAEgQIAeIJAAQA8QaAAAJ4gUAAATxAoAIAnCBQAwBMECgDgCQIFAPAEgQIAeIJAOzDHjh1T9XX1asPq9WrdirXQQt58fZ3auvFt1dDQoM+te76h/ECgHRS5yOWCJ4XP3nf2qD3/2INEAYF2ROTCfmvNRve6JwVM47FGLVH33EN5gUA7GCLPgwcOutc7aYWIRGWk774GUD4g0A6GXNBb1m92r3XSSjl8+DC38mUMAu1AyIV85MgR/QsP0japr69nFFrGINAOBAJt+yDQ8gaBdiBaQ6AVJ9/nFqmKzl30tHvnCmeNUl07d3OL8s7Ca7qoii8/klraqRZmrM0nO4N9HRwtdT1vurWuMKmrq0OgZQwC7UB4C3RzlZqW8LGpiOzPvbqoJ3amlof3D4RUEQnUTHc9fV8w31VVW2VPXHNFIN/vqurjsrRTLdg5P1qngppXnVqhevWu0ktDgvJu0bpwu9NenKm2pNoagY79zndV11OvUHVKtnNRWHj8JbVeyT5U6v6fWFKbqi3JFGjFl6vUqJO7qAX1Sh9zRW/Zp8Gqx4e7qF1BkeyTHEc+QaDlDQLtQBRaoFp4u2eqijMeCJfN1Bbo2gdUxTmhCE3Z+uEXqUFPisiqg+UfKBHZhOXh+lGvRlXVhNO7qFUqFKgdLdDN0lfYVgS6oHeXsI/ji7X0BnUOpSd1Vf38aN9sEScJVO/vNS+paV/uopYet0QclIuYJX3Gpt4xcggCLW8QaAfCR6DVu6tV9ZIH1IQl1apBj/hSEdEEMjJIjFhsge4a+wM1ZFbUSpdNOycY5aX6CuumR5FDZgejxQd/oHpdWaUmfKmLLs8m0Oop/YNtztd1hgd1tqTWa7G+eJ+66mERdDBinHuX6lUZvgNIXyLWMAkClWnQpqLzFan5cL3sU1QvEGyuQaDlDQLtQPgIVOd4Q6Y8VSi+BrMQyKrivOlqWu+LUvLJvIVfcFv/4Ha9m65vyuzbbVegaufsULRfblqgEpFo1Pacrqrb/+5vqqk+0keq3qqHB+s+F2QMHkWg4RuAbNcIVM0erBZGgk8Ltldwe1/xYW7hIXcQaAfCW6DEOwi0vEGgHQgjUP4PfNuFP2MqbxBoB8IIdOfW3H8JQloWBFreINAOxtGjR1Vtrf2nPKS1Ik9l4r9yljcItIMho6FDhw7xNKZWjjxIZOe2nfoNC4GWLwi0AyISlVHonnf3aJHKxU5aHjmPh+oOqS0bNqsDBw7oNyrkWd4g0A6I+SxUfkMsF3pNTY2qrq6GFiLncd++ffrNSeTJZ5+AQDswIlK5yEWmUBjkll3OKSNPEBBoGSAXOxQG99xCeYNAAQA8QaAAAJ4gUAAATxAoAIAnCBQAwBMECgDgCQIFAPCkzQUqf0tn/gfHiRMn3P8tRwgh6v33328X/2GhTQUqJ+P4cefR54QQ0kRK+b/MtplAzf/kIISQfFOqEm0TgZphOCGE+EaeQ+C6pdi0iUDl3YMQQloS+fiv1D4TbXWBygHLU2wIIaSlKbVb+TYRqDw7kRBCWppSu41vdYHKO4Z88RYhhLQ0cjdbSrfxCJQQ0m5SlgKVr5YghJCWBoESQohnECghhHgGgRJCiGcQaDO57ttXRdzed2BG2X/2vD5j/ZTKyepAzQE9L1NT9+iRo3p+9M9HRv1KXSm3+1i56PVo/vknZut6Usfehiy7ZXbsZZnf9tbWqEz6lO3Jtk1b2U+zz0n9EUKyB4E2EyMtM2+EJBghGrFKRFAiQpm67aW+LSpboNKHCM6uL5F5EZ6J1LMlJ/tjZCux19n7a6YiSyNv2R8jT1kvkX0XCCHNB4E2kySBGjmaGIEaGUnsaXMjUFtYRqJGmoUQqLQ38pbYI1C7ngSBEpJ7EGgzMQK0xZVNoLaYfAQ6YdgDeir9mbq2QE1dWTbStPs3y/a8iNGI3fTjjkBtudrtCSFNB4ESQohnECghhHgGgRJCiGcQKCGEeAaBEkKIZxAoIYR4BoESQohnECghhHgGgRJCiGcQKCGEeAaBEkKIZxAoIYR4BoESQohnECghhHgGgRJCiGcQaBORZ2aaZ3vK8zeXL1ym3tm+y62m4z4j1I15/mZSZF30zNDBo5y1hJBSDQJtJuYrMCTmgcYi1I1vbNBCNE+ENwKdOu536ud9fqZOnDgR9TFj4uPq8fFTdf13d+1W1/9Hf3X3gCHRelug0s+6FWvUS7Nf0NOlLyxWs6Y+o/dB2sq2N6xeH7UlhBQvCLSZuAKViDDNiNIW6BtLV2nh1e4/qCbeO17XlflHR0xUh+oO6fo/6XGtLt+1dWe4ARUXqGTQ5TcHkh2qRSwilZi2N/e6MWxICClqEGgzySbQhqMN6v6b7lFvb9iSKNCqMb/Vdffv3afnpSwfgf5myBiNxHxfEQIlpLSCQAkhxDMIlBBCPINACSHEMwiUEEI8g0AJIcQzCJQQQjyDQHNI7dHDquZwrVtMCOkgaXzvuNqyb7db3GwQaDPZc+igW0QI6aDZcbDaLWoyCJQQQqzkI1EESgghVuR2PtcgUEII8QwCJYQQzyBQQgjxDAItmexVQ+fsdQtj6dvvHrfISvPtCSGFCwL1TN9HV7tFseyZc49aGS3FBTkhkOGEfv1TS/H1hcicu/q7RYSQAgWBesYW6MpH+yv17lw1593UfCpDndFibFmEmWpnBCrt98hiUC7yFQnrpOr17feIXpywIvhnxSPBcn89NX1Iwu2E+2cEumdO2K7vXXP1lBDS8iBQz7gj0CQxxYSZ5fY7bBsK1O6nKYGGMaPW9FRijzrteZFtZntCSEuCQD1jC1RLKjUKtEegIrRoxNgvNbJMJaPeCqkTSlD6skegMpVI+1wFKqNTEa/0Y7ZjRqUIlJDCBYGWcNKfnxJCSjEItISDQAkp7SBQQgjxDAIlhBAr/F/4JshXoEcaj7lFhJAOnHyeC4pAm4k8DzSfdyRCSPtNPo+ykyDQHCJPpBcIIR0zPJE+R3wESgghSUGghBDiGQRKCCGeQaCEEOIZBEoIIZ5BoIQQ4hkESgghnkGghBDiGQRKCCGeQaCEEOIZBJpDrvv2VW4RKcP8+JJrNIXIykWvu0U6Up60rmZPjVq84DW3mBQ5CLSZLHh2vqo/WKeR3N53oDpQc0BNqZys/rPn9VquJ06c0NNJ903QdR68c5z66aU/trsh7TzvbN+lDtUd0vPyWgvb3tqqp5WDRkQ/C7YA5Wfl6Sn/HXsDluVnf/9HPT/vv5/PWG+3f+/4e+rmXjeqHZu36W09/8RsXVe2JT9/EtmGlM+a+owuk/o3fm9A1B9p3SDQZmJ+GKvG/FZPbYHKVPLr2yv1VGT71pqNgUDHho1Jh8rDw8cHr/+tkcxMRv98ZPQzIbEFOuA7V6vGY41R3fkzw++4ktFk7f6DavpD0/TyG0tX6akt0CFXDdZvztf/R/9omyJPiSvQdSvW6GXTB2mbINBmMua2X6llL/89GiUMuvxmtX/vvqwClR9088NNOl4mj5wUyWzv7r3q3V27YwIVOYr4RG6SZ3//dNR+zh+e01P5WTEClbZGsq5AZZ3gCvT3Y6fo6eArbtHlsl6y9IXFavnCZXqetH4QKCGEeAaBEkKIZxAoIYR4BoESQohnECghhHgGgRJCiGcQaA6RL5SrOVzrFpN2HvkiMfkWxny+MFC+eIxvae144UvlciRfgcrXGpOOHbl4cnmd8/3KW9L+ku9rjEAJySEH8xilkvadfCSKQAnJIT63d6R9Jp+PaBAoITlkY/Uut4gQBEpILkGgJCkIlJAcgkBJUhBoiWTOXf3dIu+sfLR/8O9eNXTOXncV8QwCJUlBoJ7p++hqtyiWPXPuUXtS83PezVgVS9MCXa0mrHDLsgeBFj7ZBPribV9QO6Kll1XPx3Zaa33yshr4N7eMFCLf/+GV0fzy11dqWhoE6hlboFpY787VkgzlFcYV6ARpE9QLZZhuL30ZgZp+h/YLlyVJcjVy7KvrpQUr2zMCDdel6xqJ9+33SDhDck42gX72c7c7y5epgQF2djwWLvf83Bf09LO3vRxOU20fuzQsD5Mp0J66r51hm21VlqxJvnnnH7vVb383Vc//5Ke3Omv9gkA9445A+94VPmncjghUJGZEJqKT+VBoyQKN8m66v9g6ZY0sVzyihWm2k5Z4egSq983qz5Y8yS25C/T2mEBFnJ9NIXkxVZ6WoT1qtQW6M2qntxMIlLQsIs6vn3uhW+wdBOoZW6BacIHImhqBSqSNlBmxyTot2WZGoLrcLK8IR4/pEeg9Wo727XqiQJU1Ak2QPWk62QQqwvvspaHYzAjT3NabkacsS3Y8Fsr2Rf1vbiNQI92B8tEAAi25IFBCckh2gVoJBGeER8ojCJSQHJKTQEnZBYESkkMQKEkKAiUkh/B/4csn/F/4JshXoEcaj7lFpAOG15mY5PNmiUCbiTwnMp93JNL+kuvzQN/e38z/hiDtPvk8yk6CQHOIPLE8n6eWk/YTnyfSM1rteOGJ9DniI1BCCEkKAiWEEM8gUEII8QwCJYQQzyBQQgjxDAIlhBDPIFBCCPEMAiWEEM8gUEII8QwCJYQQzyBQQso0s6Y9oy7+Xxeqis5dyh45Dz5BoISUYVyBQJp8gkAJKbMw6myafEajCJSQMosrDIiTaxAoIWUWVxYQJ9cgUELKLK4sIE6uQaCElFlcWfhQqH7yZekBpZ5JKC80uQaBElJmcWWRjabqNrWuJaw/qtSuWffFyg0ItGkQKCGtHFcW2ag+rtQT1/8gWl41d7ZatashEoxMt0y9KFp+Zm2DWjB9djC3MyirjG1LUrf2pai8eu1i9ee5m1P1TZ3qjDY9hixW6nit2hKIs+7FykigY1+sVX/W2wr66jFTTxcGy9KmbttKVR2IeNW9QR+9Zqrq5S+p9bsbVMOGmRl9N0WuQaCElFlcWTTFqm0NgdMW6/kt22p1+7EpwWjRHF+nKm5brBpefUD1uTWQ1YGG1DoR6OaMvkwbufpkunT5ZtVwVBdbddIy1dtU4fbCdbWRQO0s3K3Ugh7pNgteFSmnhFtt9537secaBEpImcWVRTYkW4IRpzoqIqxSu/46W+2qbsgQ6J8DV4kyTf1wBJqbQNXudWrh2lDKps5Pp4by27U2kOvamarHg+uiEWj1rLsigcpod+nTwYg4kHrF9eGodsH0+apC6h/dqeqONmiBVlw/Pz0CXV4VO8Zs5BoESkiZxZVFR0HlcYveHLkGgRJSZnFl0TGYHoxUC3dsuQaBElJmcWUBcXINAiWkzOLKAuLkGgRKSBnGFQakyScIlJAyjDwL1BVHuZPPU5hMECghhHgGgRJCiGcQKCGEeAaBEkKIZ8pSoPX19e55IISQvINACSHEMyJQ1zHFpNUFKu8Whw8fds8DIYTkFRmMHT16NOaYYtLqAhXkwA8cOOCeD0IIySnHjx/Xv0sppdt3oU0EKgctt/G1teGjtAghJJ8cPHiw5G7fhTYRqCCj0EOHDqn9+/frYTghhDQXuXM18iy10afQZgIVjERlJCoirampUdXV1QAAEeIFQeQpt+2lKk+hTQUqmA+C5RdLclsvyEkCADBOEESc4otSlafQ5gK1kRMDAJCE64tSpKgCBQBozyBQAABPECgAgCcIFADAEwQKAOAJAgUA8ASBAgB4gkABADxBoAAAniBQAABPECgAgCcIFADAEwQKAOAJAgUA8ASBAgB4gkABADxBoAAAniBQAABPECgAgCcIFADAEwQKAOAJAgUA8ASBAgB4gkABADxBoAAAniBQAABPECgAgCcIFADAEwQKAOAJAgUA8ASBAgB4gkABADxBoAAAniBQAABPECgAgCcIFADAEwQKAOAJAgUA8ASBAgB4gkABADxBoAAAnrSZQCs6d9HUJ5S5dfNF+thmlvcvK0ifaWqi/RTumOWuD9jwWLBuULwcADo0bSrQAd++Wg2Y/I+wbOs0dfnZvQoiuwyBFpjlt3Rtfh8RKJQJv7r1/liZva6utk5tWb8pti4XlrywOFZmM/iKn8XKik2bCvTy0QuCaR+9XHVWF7VmdFqg/T6cHuVVrQ3rm9GeEWR3ayTo9h0JVMss6PvO7lG9ESdLmz5h27MG6enGcanlFBuPpEfEFZ17pfv/6726bOCwBVHZ5Va7ES+ZbQ6KbXP61szjqjj1BrVvVrh9IXE0C1DCiCT37t6rHr53vBrwnavVsWPHVH1dvZ6/76Z7tEA3v7lJvbV2o7r2on66jYhP5ndt26mXpe6d194R62fyyEnqN0PGqP3V+9ThQ4dV7YGDasLwB/V604+7P8WmjQW6VU+nb12tp9tSAt02LpzaArMFo+ukprp8/LJY365ATXljY7jNeftT7U8fF60z/YdCTIttzB9To2SLEWdWhOsvm6vm/fzqqK4eeVojUHub5rjCPjLLhH3ONgBKHSNQkZ0sL1v4d3XT92+I1hmBrl2xJkOgMr3xewPUlNGT9bz04fYj8yLSX954txbp7OmzdB+C1EWggUAHGvGcfG8k0MbZQ/XU/XzUFajMv3BL/LbfXm8LdHq3QNYTbwqWu0b1Ks56LJq/ZNjqdPm3n9Tz9TtScrf6t7dT0Tnc1+V1QdmRucoVaMY2U8e1RtofkdF3er/D4xga2wZAKZMk0Im/fEhL84aL+0cCferRGWr7lm16FCkCXDBrvq63ffM2tXLRCjXi5uGxfsy8CHRo/9vVnnfeVffccKeeSjkCDQTamLqFHfHXxrRAGzNvz0Wc9nIotHAEF1IR69vwgiXQxv2z9HyGKFMC3ZjatkFGg+nlblHfZh8N87Za9U7tplyButu0b/crTh+qP7owy/3Gb42dJ4CORimKr1C0mUABADoaCBQAwBMECgDgCQIFAPAEgQIAeIJAAQA8QaAAAJ4gUAAATxAoAIAnCBQAwBMECgDgSZsLVJ62IjQ0NAAANInxheuRUqFNBSon5L3XX1fvv/WWOrFjBwBAVt7fulW9t2aNagx8UaoSbTOBHnvnndgJAgDIBRl4yQDM9UqxaROByoG//+absZMCAJArxzZuLLmRaKsLVA746NGjsZMBAJAPcjtfaqPQNhHooUOHYicDACAf5DNRGYy5jikmrS5Qeceor6+PnQwAgHw5cuRISd3GI1AAaDeUpUDr6upiJwIAIF8QKACAJwi0AzDj4YdjZQDQ+iDQds7HTjlZPf9fndTxrVtj64QZoyqj+d0J65OYfVq3WFkh2L1oSazMZvJp18bKWsLkAU/GytqaNQllSawZcFo039x+v3p+ui4UFwTajtn9+uvqrVc6qfe2d1L/9olPxNYLM0YtiS7IUKDh/OTzQ7G+uiisZ5YFI1BzUc8+LZxKX+k6p+m2Zp3Zxoxg2bST7c2wZBwKMiWHGcH8osrU9lP7ZAt0UWr/Rj0ZlGfuz+SM/Qn3KVpnHYfZJ3sbsr+21My62TMsMaW2beZ1HSkL9lnammMK92NJuB/Belmnz0cwL/3JOr2tVH+7R3XTy2b/Mwn3IXMbYVm6fup4UvtpjlW/rkE72Q/zepg6dj9mW3Je1ug3VlO+RE/XDAjPv/2amf6kvry2un3qdTLHbwtfjtGck3A+PMfx/Uo6B+0PBNqOOeWj/6zlKfztqU7qyKZNsTrmB1kuSjMClR/eDJntyBzVGIFGQkvJwRWong8uXOk3Gt2KGANMW+nXtDNloWi66XVyEQrS3hZo1L/MRxd/qp+UOGQqx2b6kAvVHmWbC1vkaiRk92uv0280lnzT/SzJaGu2Ze+HCMecP/3GYp1LOVZ7WW8ny0hbysNzH25TE2wjXT9BoHK+rb4zRZXZT3o7Zn8yBWrXt/t059NvZEak5jVPt5U6dn33nNn73Z5BoO2UK77//Uiehv97cadYPfuHWKTg/vBHI1BrFJHrCDRjNBaNQAOZDAgvEj3ysEc+qW3OOD8Uenqklrlek7rAEkeglkCNVKNRrHUcGaPsVH+uQM06ObbEEWiqnd52MK8lPSoljkhKT0bnUfefqifl7gjUfqOwR3pmu6YfM0ILR6BNCDR1/NK3HIN5nY2w7H7CPpZk3BlIH9LG3k6GQI0Q7RGoOf+2QGUfUv2bEag+Z6ljMn1mjIyt422vINB2yi9uypSnwa3XWrgiguJjv8FB24BA2yGNb7+tXnjqqUQWzZoVqw8ArQMCBQDwBIECAHiCQAEAPClLgfIwEQBoKfI4OwQKAOCBPFC57AQqB3v48GH13sqVsRMCAJAL72/apGr37NEDMtcxxaTVBSrIQR84cEB/MZR7YgAAmuPQ5s36dymlNPoU2kSgctDytR5GonytMQA0h3zmKV9GeSSgtrZW3767bik2bSJQQSQq32ci7yIHDx7UMgUAyIZ4QsQpgy+5iy210afQZgIV5ATIiRCRyrsJAEBTiCtK7XNPmzYVqI3IFACgKVxvlBpFEygAQHsHgQIAeIJAAQA8QaAAAJ4gUAAATxAoAIAnCBQAwBMECgDgCQIFAPAEgQIAeIJAAQA8QaAAAJ4gUAAATxAoAIAnCBQAwBMECgDgCQIFAPAEgQIAeIJAAQA8QaAAAJ4gUAAATxAoAIAnCBQAwBMECgDgCQIFAPAEgQIAeIJAAQA8QaAAAJ4gUAAATxAoAIAnCBQAwBMECgDgCQIFAPAEgQIAeIJAAQA8QaAAAJ4gUAAATxAoAIAnCBQAwBMECgDgCQIFAPAEgQIAeIJAAQA8QaAAAJ4gUAAATxAoAIAnCBQAwBMECgDgCQIFAPAEgQIAeIJAAQA8QaAAAJ4gUAAATxAoAIAnCBQAwBMECgDgCQIFAPAEgQIAeIJAAQA8QaAAAJ4gUAAATxAoAIAnCBQAwBMECgDgCQIFAPAEgQIAeIJAAQA8QaAAAJ4gUAAATxAoAIAnCBQAwBMECgDgyf8HTgiaE1nETPIAAAAASUVORK5CYII=>
+**Descrição das pastas:**
+
+- **Controller/** - Lógica do servidor (rotas, autenticação, banco de dados)
+- **View/** - Interface web (HTML, CSS, JavaScript frontend)
+- **generated/** - Arquivos gerados automaticamente (Prisma)
+
+---
+
+## 📦 Pré-requisitos
+
+Para executar o projeto localmente, você precisa ter instalado:
+
+- **Node.js** (versão 16 ou superior)
+- **npm** (gerenciador de pacotes do Node.js)
+- **Git** (controle de versão)
+- **MongoDB Atlas** (criar uma conta gratuita em https://www.mongodb.com/atlas)
+
+---
+
+## 🚀 Instalação
+
+### 1️⃣ Clone o Repositório
+
+```bash
+git clone https://github.com/BiancaCosta154/BKStore.git
+cd BKStore/Person/API/API
+```
+
+### 2️⃣ Instale as Dependências
+
+```bash
+npm install
+```
+
+Isso instalará todos os pacotes listados no `package.json`, incluindo:
+- Express (servidor web)
+- Mongoose (conexão com MongoDB)
+- JWT (autenticação)
+- bcryptjs (hash de senhas)
+- Swagger (documentação)
+
+---
+
+## ⚙️ Configuração
+
+### Crie um arquivo `.env`
+
+Na raiz do projeto (`Person/API/API/`), crie um arquivo chamado `.env` com as seguintes variáveis:
+
+```env
+# Banco de dados MongoDB Atlas
+DATABASE_URL=mongodb+srv://[USERNAME]:[PASSWORD]@[CLUSTER].mongodb.net/[DATABASE_NAME]?retryWrites=true&w=majority
+
+# Porta do servidor
+PORT=5000
+
+# Chave secreta para JWT (use uma string segura)
+JWT_SECRET=chave
+```
+
+**Onde obter a `DATABASE_URL`:**
+
+1. Acesse [MongoDB Atlas](https://www.mongodb.com/atlas)
+2. Crie uma conta e um cluster
+3. Vá em "Conectar" → "Connect your application"
+4. Copie a connection string
+5. Substitua `[USERNAME]`, `[PASSWORD]`, `[CLUSTER]` e `[DATABASE_NAME]`
+
+**Exemplo completo:**
+```env
+DATABASE_URL=mongodb+srv://usuario:senha123@cluster0.abc123.mongodb.net/:::?retryWrites=true&w=majority
+PORT=5000
+JWT_SECRET=meu_jwt_
+```
+
+---
+
+## ▶️ Como Executar
+
+### Inicie o Servidor
+
+```bash
+npm start
+```
+
+Ou diretamente com Node.js:
+
+```bash
+node Controller/server.js
+```
+
+**Saída esperada:**
+```
+Conexão com MongoDB estabelecida.
+Servidor rodando com sucesso em http://localhost:5000
+```
+
+### Acesse a Aplicação
+
+- **Página de Login:** http://localhost:5000/login.html
+- **API Swagger:** http://localhost:5000/api-docs
+- **Dashboard:** http://localhost:5000/dashboard (após autenticação)
