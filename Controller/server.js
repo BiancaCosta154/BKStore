@@ -308,7 +308,7 @@ app.get('/dashboard', authenticateToken, (req, res) => {
     res.sendFile(path.join(__dirname, '../View/index.html'))
 })
 
-// ### ADICIONADO: rota de logout que redireciona para login
+
 app.get('/logout', (req, res) => {
     res.redirect('/login.html')
 })
