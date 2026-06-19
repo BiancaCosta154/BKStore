@@ -7,9 +7,8 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
-import bcrypt from 'bcryptjs' // ### ADICIONADO: bcrypt para hash de senha
-import jwt from 'jsonwebtoken' // ### ADICIONADO: JWT para autenticação baseada em token
-
+import bcrypt from 'bcryptjs' 
+import jwt from 'jsonwebtoken' 
 dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1', '1.0.0.1'])
 
 const __filename = fileURLToPath(import.meta.url)
@@ -21,7 +20,7 @@ const app = express()
 
 app.use(express.json())
 app.use(cors())
-app.use(express.static(path.join(__dirname, '../View'))) // ### ADICIONADO: serve as páginas estáticas de View
+app.use(express.static(path.join(__dirname, '../View'))) 
 
 const swaggerSpec = swaggerJsdoc({
     definition: {
@@ -44,7 +43,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 const DATABASE_URL = process.env.DATABASE_URL
 const PORT = process.env.PORT || 5000
-const JWT_SECRET = process.env.JWT_SECRET || 'minha_chave_super_secreta' // ### ADICIONADO: segredo para JWT
+const JWT_SECRET = process.env.JWT_SECRET || 'minha_chave_super_secreta' 
 
 mongoose.set('strictQuery', false)
 
@@ -69,7 +68,7 @@ async function startServer() {
 
 startServer()
 
-// ### ADICIONADO: modelo de usuário para login e registro
+
 const UserSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -85,12 +84,12 @@ const UserSchema = new mongoose.Schema({
     }
 })
 
-// ### ADICIONADO: modelo de livro vinculado ao usuário autenticado
+
 const LivroModelo = new mongoose.Schema({
     title: { type: String, required: true },
     author: { type: String, required: true },
     status: { type: String, required: true },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true } // ### ADICIONADO: relaciona cada livro a um usuário
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true } 
 }, {
     toJSON: {
         virtuals: true,
@@ -105,7 +104,7 @@ const LivroModelo = new mongoose.Schema({
 const User = mongoose.model('User', UserSchema)
 const Livro = mongoose.model('Livro', LivroModelo)
 
-// ### ADICIONADO: middleware de autenticação JWT
+
 function authenticateToken(req, res, next) {
     const authHeader = req.headers.authorization
     const token = authHeader && authHeader.split(' ')[1]
@@ -127,7 +126,7 @@ app.get('/', (req, res) => {
     res.redirect('/login.html')
 })
 
-// ### ADICIONADO: cria novo usuário e retorna token JWT
+
 app.post('/api/register', async (req, res) => {
     const { name, email, password } = req.body
 
@@ -153,7 +152,7 @@ app.post('/api/register', async (req, res) => {
     }
 })
 
-// ### ADICIONADO: autentica usuário e retorna token JWT
+
 app.post('/api/login', async (req, res) => {
     const { email, password } = req.body
 
@@ -180,7 +179,7 @@ app.post('/api/login', async (req, res) => {
     }
 })
 
-// ### ADICIONADO: retorna dados do usuário autenticado
+
 app.get('/api/me', authenticateToken, async (req, res) => {
     try {
         const user = await User.findById(req.userId)
@@ -194,7 +193,7 @@ app.get('/api/me', authenticateToken, async (req, res) => {
     }
 })
 
-// ### ADICIONADO: busca livros apenas do usuário autenticado
+
 app.get('/api/livros', authenticateToken, async (req, res) => {
     try {
         const livros = await Livro.find({ userId: req.userId })
@@ -219,7 +218,7 @@ app.get('/api/livros', authenticateToken, async (req, res) => {
  *         description: Erro ao buscar livros no banco de dados
  */
 
-// ### ADICIONADO: cria livro associado ao usuário autenticado
+
 app.post('/api/livros', authenticateToken, async (req, res) => {
     const { title, author, status } = req.body
 
@@ -304,7 +303,7 @@ app.delete('/api/livros/:id', authenticateToken, async (req, res) => {
  *         description: Erro ao remover livro
  */
 
-// ### ADICIONADO: rota protegida que serve o index.html após login
+
 app.get('/dashboard', authenticateToken, (req, res) => {
     res.sendFile(path.join(__dirname, '../View/index.html'))
 })
