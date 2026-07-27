@@ -4,10 +4,6 @@
 <img width="1194" height="940" alt="image" src="https://github.com/user-attachments/assets/47be4b1f-2a8e-4058-a2e3-638bda30e476" />
 <img width="1100" height="690" alt="image" src="https://github.com/user-attachments/assets/d1e9e3ac-01e0-4b68-b03d-0240b9682a3a" />
 
-
-
-
-
 ---
 
 ## 📋 Índice
@@ -53,7 +49,6 @@ A aplicação utiliza uma **API REST** desenvolvida com Express.js e armazena os
 | **bcryptjs** | ^2.4.3 | Hash de senhas |
 | **CORS** | ^2.8.6 | Controle de requisições entre origens |
 | **Swagger** | ^6.3.0 | Documentação de API |
-| **Prisma** | 6.19 | ORM (configurado mas não utilizado no momento) |
 | **dotenv** | ^17.4.2 | Gerenciamento de variáveis de ambiente |
 
 ---
@@ -82,8 +77,7 @@ Person/
 
 - **Controller/** - Lógica do servidor (rotas, autenticação, banco de dados)
 - **View/** - Interface web (HTML, CSS, JavaScript frontend)
-- **generated/** - Arquivos gerados automaticamente (Prisma)
-
+  
 ---
 
 ## 📦 Pré-requisitos
